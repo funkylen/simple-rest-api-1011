@@ -4,7 +4,6 @@ import psycopg2.extras
 
 
 def get_db():
-
     conn = psycopg2.connect(
         dbname='postgres',
         user='postgres',
@@ -48,5 +47,5 @@ def store():
     return dict(student)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)

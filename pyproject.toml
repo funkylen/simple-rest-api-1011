@@ -19,6 +19,3 @@ autopep8 = "^2.0.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.scripts]
-start = 'rest_api.scripts.start:start'
-
