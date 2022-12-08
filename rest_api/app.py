@@ -1,9 +1,10 @@
 from flask import Flask, abort, request
 import json
+import os
 
 app = Flask(__name__)
 
-with open('students.json', 'r') as file:
+with open(os.path.dirname(__file__) + '/students.json', 'r') as file:
     students = json.load(file) 
 
 @app.route('/students', methods=['GET'])
