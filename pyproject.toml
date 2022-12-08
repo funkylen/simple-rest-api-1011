@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "rest-api"
+version = "0.1.0"
+description = ""
+authors = ["funkylen <funkylen@gmail.com>"]
+readme = "README.md"
+packages = [{include = "rest_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+flask = "^2.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = 'rest_api.scripts.start:start'
+
