@@ -3,49 +3,49 @@ import psycopg2
 import psycopg2.extras
 
 
-# Connect to your postgres DB
-conn = psycopg2.connect(
-    dbname='postgres',
-    user='postgres',
-    password='password',
-    host='127.0.0.1',
-    port='5432'
-)
+def get_db():
+
+    conn = psycopg2.connect(
+        dbname='postgres',
+        user='postgres',
+        password='password',
+        host='127.0.0.1',
+        port='5432'
+    )
+    return conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
 
 app = Flask(__name__)
 
+
 @app.route('/students', methods=['GET'])
 def index():
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    cur = get_db()
     cur.execute("SELECT * FROM students")
     students = cur.fetchall()
-    
+
     return [dict(student) for student in students]
+
 
 @app.route('/students/<id>', methods=['GET'])
 def show(id):
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("SELECT * FROM students where id=" + str(id))
-    students = cur.fetchall()
-    return [dict(student) for student in students]
- 
+    cur = get_db()
+    cur.execute("SELECT * FROM students where id = %s", (id))
 
-    
+    student = cur.fetchone()
 
-# @app.route('/students', methods=['POST'])
-# def store():
-#     student = {
-#         'id': len(records),
-#         'name': request.json['name'],
-#     }
+    return dict(student)
 
-#     records.append(student)
 
-#     with open('students.json', 'w') as file:
-#         json.dump(records, file)
+@app.route('/students', methods=['POST'])
+def store():
+    cur = get_db()
+    name = request.json['name']
 
-#     return student, 201
+    cur.execute("INSERT INTO students (name) values (%s) RETURNING *", (name,))
+
+    student = cur.fetchone()
+    return dict(student)
 
 
 if __name__ == '__main__':
