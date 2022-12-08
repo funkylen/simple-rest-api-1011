@@ -9,6 +9,7 @@ packages = [{include = "rest_api"}]
 [tool.poetry.dependencies]
 python = "^3.8"
 flask = "^2.2.2"
+psycopg2 = "^2.9.5"
 
 
 [tool.poetry.group.dev.dependencies]
